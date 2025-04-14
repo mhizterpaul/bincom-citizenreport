@@ -7,7 +7,8 @@
     </author>
     <content src="index.html" />
     <access origin="*" />
-    <allow-navigation href="*" />
+<allow-navigation href="http://www.citizen-report.eu-4.evennode.com/*" />
+<preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
 </widget>

@@ -24,11 +24,25 @@ app.use(cookieParser());
 // CORS configuration
 app.use(
   cors({
-    origin: true, // This allows all origins
+    origin: [
+      "http://localhost:5173", // Your local development frontend
+      "https://bincom-citizen-report.vercel.app", // Any other local development URLs
+      "http://www.citizen-report.eu-4.evennode.com",
+      "https://www.citizen-report.eu-4.evennode.com",
+      /\.citizen-report\.eu-4\.evennode\.com$/, // Any subdomains of your production domain
+    ],
     credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+    allowedHeaders: [
+      "Content-Type",
+      "Authorization",
+      "Accept",
+      "Origin",
+      "X-Requested-With",
+    ],
     exposedHeaders: ["set-cookie"],
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
   })
 );
 

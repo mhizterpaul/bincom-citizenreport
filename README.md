@@ -20,7 +20,7 @@ A full-stack application for reporting and managing incidents in real-time.
 - TypeScript
 - MongoDB with Mongoose
 - JWT for authentication
-- Uses http server and does not receive request from
+- Uses http server and does not process request from
 -  a frontend hosted on a secure(https) server
 
 ### Frontend

@@ -6,9 +6,10 @@ interface AuthState {
   isAuthenticated: boolean;
 }
 
+// Initialize state with persisted token if it exists
 const initialState: AuthState = {
-  token: null,
-  isAuthenticated: false,
+  token: localStorage.getItem("token"),
+  isAuthenticated: !!localStorage.getItem("token"),
 };
 
 const authSlice = createSlice({
@@ -18,12 +19,16 @@ const authSlice = createSlice({
     login: (state, action: PayloadAction<{ token: string; user: any }>) => {
       state.token = action.payload.token;
       state.isAuthenticated = true;
+      // Store token in localStorage
+      localStorage.setItem("token", action.payload.token);
       // Update user state
       updateUser(action.payload.user);
     },
     logout: (state) => {
       state.token = null;
       state.isAuthenticated = false;
+      // Remove token from localStorage
+      localStorage.removeItem("token");
     },
   },
 });

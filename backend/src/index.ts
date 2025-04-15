@@ -2,8 +2,6 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import mongoose from "mongoose";
-import { createServer } from "http";
-import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.routes";
 import incidentRoutes from "./routes/incident.routes";
 import categoryRoutes from "./routes/category.routes";
@@ -14,24 +12,15 @@ import userRoutes from "./routes/user.routes";
 dotenv.config();
 
 const app = express();
-const server = createServer(app);
 
 // Middleware
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
 
 // CORS configuration
 app.use(
   cors({
-    origin: [
-      "http://localhost:5173", // Your local development frontend
-      "https://bincom-citizen-report.vercel.app", // Any other local development URLs
-      "http://www.citizen-report.eu-4.evennode.com",
-      "https://www.citizen-report.eu-4.evennode.com",
-      /\.citizen-report\.eu-4\.evennode\.com$/, // Any subdomains of your production domain
-    ],
-    credentials: true,
+    origin: "*",
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allowedHeaders: [
       "Content-Type",
@@ -40,9 +29,6 @@ app.use(
       "Origin",
       "X-Requested-With",
     ],
-    exposedHeaders: ["set-cookie"],
-    preflightContinue: false,
-    optionsSuccessStatus: 204,
   })
 );
 
@@ -67,12 +53,13 @@ app.use(
 );
 
 const PORT = process.env.PORT || 3000;
-// Connect to MongoDB
+
+// Connect to MongoDB and start server
 mongoose
   .connect(process.env.MONGODB_URI as string)
-  .then(() =>
-    server.listen(PORT, () => {
+  .then(() => {
+    app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
-    })
-  )
+    });
+  })
   .catch((err) => console.error("MongoDB connection error:", err));

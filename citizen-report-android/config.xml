@@ -1,14 +1,42 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="io.cordova.hellocordova" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>HelloCordova</name>
-    <description>Sample Apache Cordova App</description>
-    <author email="dev@cordova.apache.org" href="https://cordova.apache.org">
-        Apache Cordova Team
+<widget id="com.bincom.citizenreport" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0" xmlns:android="http://schemas.android.com/apk/res/android">
+    <name>Citizen Report</name>
+    <description>
+        A mobile application for citizens to report incidents and track their resolution.
+    </description>
+    <author email="support@bincom.net" href="https://bincom.net">
+        Bincom Development Team
     </author>
+
     <content src="index.html" />
+
+    <!-- Permissions and Security -->
     <access origin="*" />
-<allow-navigation href="http://www.citizen-report.eu-4.evennode.com/*" />
-<preference name="CordovaWebViewEngine" value="CDVWKWebViewEngine" />
+    <allow-navigation href="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+
+    <!-- Platform Specific Settings -->
+    <platform name="android">
+        <config-file target="AndroidManifest.xml" parent="/manifest">
+            <uses-permission android:name="android.permission.INTERNET" />
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+            <uses-permission android:name="android.permission.CAMERA" />
+            <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
+            <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+            <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+        </config-file>
+    </platform>
+
+
+    <!-- CSP - Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" 
+          content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval' 'unsafe-inline' http://www.citizen-report.eu-4.evennode.com https://www.citizen-report.eu-4.evennode.com; 
+                   style-src 'self' 'unsafe-inline'; 
+                   media-src *; 
+                   img-src 'self' data: content:;" />
 </widget>

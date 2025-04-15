@@ -1,5 +1,7 @@
-import { Navigate, useLocation } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import { Navigate, useLocation } from "react-router-dom";
+import { useAuth } from "../hooks/useAuth";
+import { isTokenExpired } from "../utils/auth";
+import { store } from "../store";
 
 interface ProtectedRouteProps {
   children: React.ReactNode;
@@ -8,13 +10,17 @@ interface ProtectedRouteProps {
 const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
   const { isAuthenticated } = useAuth();
   const location = useLocation();
+  const token = store.getState().auth.token;
 
-  if (!isAuthenticated) {
-    // Redirect to login page while saving the attempted url
+  if (!isAuthenticated || (token && isTokenExpired(token))) {
+    // Clear token and redirect to login if token is expired
+    if (token) {
+      store.dispatch({ type: "auth/logout" });
+    }
     return <Navigate to="/auth" state={{ from: location }} replace />;
   }
 
   return <>{children}</>;
 };
 
-export default ProtectedRoute; 
+export default ProtectedRoute;

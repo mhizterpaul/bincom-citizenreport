@@ -60,14 +60,20 @@ const Auth = () => {
         `/auth/${isLogin ? "login" : "register"}`,
         formData
       );
-      const data = response.data;
+      const { data } = response.data;
 
-      // On successful authentication, update the auth state
+      // Store token in localStorage
+      localStorage.setItem("token", data.token);
+
+      // Update auth state with user and token
       login({
-        id: data.user.id,
-        name: data.user.firstName + " " + data.user.lastName,
-        email: data.user.email,
-        image: data.user.image,
+        token: data.token,
+        user: {
+          id: data.user.id,
+          name: data.user.firstName + " " + data.user.lastName,
+          email: data.user.email,
+          image: data.user.image,
+        },
       });
     } catch (err: any) {
       setError(err.response?.data?.message || "Authentication failed");

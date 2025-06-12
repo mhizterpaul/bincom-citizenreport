@@ -27,7 +27,7 @@ const App = () => {
               isAuthenticated ? (
                 <Navigate to="/dashboard" replace />
               ) : (
-                <Navigate to="/auth" replace />
+                <Navigate to={import.meta.env.VITE_ENVIRONMENT === "production" ? "auth" : "dashboard"} replace />
               )
             }
           />
